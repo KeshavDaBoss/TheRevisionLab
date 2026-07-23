@@ -58,22 +58,6 @@ export const WORKSPACE_ICONS: WorkspaceIconOption[] = [
   { id: "Trophy", name: "Achievement", icon: Trophy },
   { id: "Lightbulb", name: "Logic & Ideas", icon: Lightbulb },
   { id: "Music", name: "Music & Arts", icon: Music },
-  { id: "Palette", name: "Design & Arts", icon: Palette },
-  { id: "Activity", name: "Medicine & Health", icon: Activity },
-  { id: "Bookmark", name: "Study Notes", icon: Bookmark },
-  { id: "FileText", name: "Documents", icon: FileText },
-  { id: "Layers", name: "Modules", icon: Layers },
-  { id: "Cpu", name: "Computer Tech", icon: Cpu },
-  { id: "Flame", name: "Revision Streak", icon: Flame },
-  { id: "Scale", name: "Law & Civics", icon: Scale },
-  { id: "PenTool", name: "Literature", icon: PenTool },
-  { id: "Zap", name: "Rapid Revision", icon: Zap },
-  { id: "Award", name: "Excellence", icon: Award },
-  { id: "Rocket", name: "Astro & Aerospace", icon: Rocket },
-  { id: "Binary", name: "Data Science", icon: Binary },
-  { id: "Library", name: "Library", icon: Library },
-  { id: "Clock", name: "Timed Practice", icon: Clock },
-  { id: "ShieldCheck", name: "Security & Ethics", icon: ShieldCheck },
 ];
 
 export function getWorkspaceIconComponent(iconId?: string): React.ComponentType<LucideProps> {

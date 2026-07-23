@@ -121,7 +121,6 @@ export default function MentorView({
   // Sidebar states
   const [sidebarSearch, setSidebarSearch] = useState<string>("");
   const [expandedNodes, setExpandedNodes] = useState<Record<string, boolean>>({});
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
 
   // Refs for animation
   const formAnimationRef = useRef<HTMLDivElement>(null);
@@ -542,8 +541,7 @@ export default function MentorView({
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-[#090d16] text-slate-100 flex items-center justify-center p-4 relative overflow-hidden font-sans" style={{ zoom: 1.15 }}>
-        <div className="absolute -top-48 -left-48 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[130px] pointer-events-none" />
-        <div className="absolute -bottom-48 -right-48 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[130px] pointer-events-none" />
+        {/* Removed background glow accents */}
 
         <div ref={loginRef} className="w-full max-w-md bg-slate-900/80 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-md relative overflow-hidden">
           <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-purple-500 to-indigo-500" />
@@ -577,7 +575,7 @@ export default function MentorView({
                   type={showPassword ? "text" : "password"}
                   value={passwordInput}
                   onChange={(e) => setPasswordInput(e.target.value)}
-                  placeholder="Enter mentor password (default: 12345678)"
+                  placeholder="Enter mentor password (default- 12345678)"
                   className="w-full bg-slate-950 border border-slate-800 focus:border-purple-500 rounded-xl pl-4 pr-10 py-3 text-xs text-white placeholder-slate-600 focus:outline-none"
                   autoFocus
                 />
@@ -599,7 +597,7 @@ export default function MentorView({
 
             <button
               type="submit"
-              className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-purple-600/20 cursor-pointer"
+              className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl transition-all cursor-pointer"
             >
               Unlock Dashboard
             </button>
@@ -632,7 +630,7 @@ export default function MentorView({
             {(() => {
               const HeaderIcon = getWorkspaceIconComponent(workspace.icon);
               return (
-                <div className="p-2 bg-gradient-to-tr from-purple-600 to-indigo-600 rounded-xl text-white shadow-md flex items-center justify-center">
+                <div className="p-2 bg-gradient-to-tr from-purple-600 to-indigo-600 rounded-xl text-white flex items-center justify-center">
                   <HeaderIcon className="w-5 h-5" />
                 </div>
               );
@@ -690,147 +688,133 @@ export default function MentorView({
       <div className="flex-1 flex max-w-7xl mx-auto w-full px-4 md:px-6 py-6 gap-6">
 
         {/* SIDEBAR: CHAPTERS & TOPICS DIRECTORY TREE */}
-        <aside className={`${isSidebarCollapsed ? "w-16" : "w-80"} shrink-0 bg-slate-900/60 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300`}>
+        <aside className="w-80 shrink-0 bg-slate-900/60 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
-              {!isSidebarCollapsed && (
-                <div className="flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 text-purple-400" />
-                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
-                    Syllabus Directory
-                  </span>
-                </div>
-              )}
-              <button
-                onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-                className="p-1 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white ml-auto"
-              >
-                {isSidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-              </button>
+            <div className="flex items-center gap-2 pb-3 border-b border-slate-800 mb-4">
+              <BookOpen className="w-4 h-4 text-purple-400" />
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
+                Syllabus Directory
+              </span>
             </div>
 
-            {!isSidebarCollapsed && (
-              <>
-                {/* Search Sidebar */}
-                <input
-                  type="text"
-                  placeholder="Filter chapters..."
-                  value={sidebarSearch}
-                  onChange={(e) => setSidebarSearch(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 focus:border-purple-500 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none mb-4 font-sans"
-                />
+            {/* Search Sidebar */}
+            <input
+              type="text"
+              placeholder="Filter chapters..."
+              value={sidebarSearch}
+              onChange={(e) => setSidebarSearch(e.target.value)}
+              className="w-full bg-slate-950 border border-slate-800 focus:border-purple-500 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none mb-4 font-sans"
+            />
 
-                {/* Add Chapter Input */}
-                <form onSubmit={handleAddChapter} className="flex gap-2 mb-6">
-                  <input
-                    type="text"
-                    placeholder="+ New Chapter Name"
-                    value={newChapterName}
-                    onChange={(e) => setNewChapterName(e.target.value)}
-                    className="flex-1 bg-slate-950 border border-slate-800 focus:border-purple-500 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none"
-                  />
-                  <button
-                    type="submit"
-                    disabled={!newChapterName.trim()}
-                    className="p-2 bg-purple-600 hover:bg-purple-700 disabled:bg-slate-800 text-white rounded-xl transition-all cursor-pointer shrink-0"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </form>
+            {/* Add Chapter Input */}
+            <form onSubmit={handleAddChapter} className="flex gap-2 mb-6">
+              <input
+                type="text"
+                placeholder="+ New Chapter Name"
+                value={newChapterName}
+                onChange={(e) => setNewChapterName(e.target.value)}
+                className="flex-1 bg-slate-950 border border-slate-800 focus:border-purple-500 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none"
+              />
+              <button
+                type="submit"
+                disabled={!newChapterName.trim()}
+                className="p-2 bg-purple-600 hover:bg-purple-700 disabled:bg-slate-800 text-white rounded-xl transition-all cursor-pointer shrink-0"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+            </form>
 
-                {/* Chapters Tree List */}
-                <div className="space-y-2 overflow-y-auto max-h-[calc(100vh-320px)] pr-1">
-                  {filteredChapters.map((chapter) => {
-                    const isSelectedCh = selectedChapter?.id === chapter.id;
-                    const isExpanded = expandedNodes[chapter.id];
+            {/* Chapters Tree List */}
+            <div className="space-y-2 overflow-y-auto max-h-[calc(100vh-320px)] pr-1">
+              {filteredChapters.map((chapter) => {
+                const isSelectedCh = selectedChapter?.id === chapter.id;
+                const isExpanded = expandedNodes[chapter.id];
 
-                    return (
-                      <div key={chapter.id} className="rounded-xl border border-slate-800/80 overflow-hidden bg-slate-950/40">
-                        <div
-                          onClick={() => {
-                            setSelectedChapter(chapter);
-                            setSelectedTopic(null);
-                            setPanelMode(null);
-                            setExpandedNodes((prev) => ({ ...prev, [chapter.id]: !prev[chapter.id] }));
-                          }}
-                          className={`p-2.5 flex items-center justify-between cursor-pointer transition-colors ${
-                            isSelectedCh ? "bg-purple-950/40 text-purple-200 font-bold" : "hover:bg-slate-900 text-slate-300"
-                          }`}
+                return (
+                  <div key={chapter.id} className="rounded-xl border border-slate-800/80 overflow-hidden bg-slate-950/40">
+                    <div
+                      onClick={() => {
+                        setSelectedChapter(chapter);
+                        setSelectedTopic(null);
+                        setPanelMode(null);
+                        setExpandedNodes((prev) => ({ ...prev, [chapter.id]: !prev[chapter.id] }));
+                      }}
+                      className={`p-2.5 flex items-center justify-between cursor-pointer transition-colors ${
+                        isSelectedCh ? "bg-purple-950/40 text-purple-200 font-bold" : "hover:bg-slate-900 text-slate-300"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 truncate">
+                        <ChevronRight className={`w-3.5 h-3.5 text-slate-500 transition-transform ${isExpanded ? "rotate-90" : ""}`} />
+                        <span className="text-xs truncate">{chapter.name}</span>
+                      </div>
+
+                      <div className="flex items-center gap-1">
+                        <span className="text-[10px] font-mono text-slate-500">
+                          {chapter.topics.length}
+                        </span>
+                        <button
+                          onClick={(e) => handleDeleteChapter(chapter.id, e)}
+                          className="p-1 hover:text-rose-400 text-slate-600 transition-colors"
+                          title="Delete Chapter"
                         >
-                          <div className="flex items-center gap-2 truncate">
-                            <ChevronRight className={`w-3.5 h-3.5 text-slate-500 transition-transform ${isExpanded ? "rotate-90" : ""}`} />
-                            <span className="text-xs truncate">{chapter.name}</span>
-                          </div>
+                          <Trash2 className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </div>
 
-                          <div className="flex items-center gap-1">
-                            <span className="text-[10px] font-mono text-slate-500">
-                              {chapter.topics.length}
-                            </span>
-                            <button
-                              onClick={(e) => handleDeleteChapter(chapter.id, e)}
-                              className="p-1 hover:text-rose-400 text-slate-600 transition-colors"
-                              title="Delete Chapter"
+                    {/* Topics List Under Chapter */}
+                    {isExpanded && (
+                      <div className="pl-6 pr-2 py-1 bg-slate-900/60 border-t border-slate-800/60 space-y-1">
+                        {chapter.topics.map((topic) => {
+                          const isSelectedTop = selectedTopic?.id === topic.id;
+                          return (
+                            <div
+                              key={topic.id}
+                              onClick={() => {
+                                setSelectedChapter(chapter);
+                                setSelectedTopic(topic);
+                                setPanelMode(null);
+                              }}
+                              className={`p-2 rounded-lg flex items-center justify-between text-xs cursor-pointer transition-colors ${
+                                isSelectedTop ? "bg-indigo-600 text-white font-bold" : "hover:bg-slate-800 text-slate-400"
+                              }`}
                             >
-                              <Trash2 className="w-3 h-3" />
+                              <span className="truncate">{topic.name}</span>
+                              <button
+                                onClick={(e) => handleDeleteTopic(topic.id, e)}
+                                className="p-1 hover:text-rose-400 text-slate-500 transition-colors"
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </button>
+                            </div>
+                          );
+                        })}
+
+                        {/* Add Topic under Chapter */}
+                        {isSelectedCh && (
+                          <form onSubmit={handleAddTopic} className="flex gap-1.5 pt-1 pb-1">
+                            <input
+                              type="text"
+                              placeholder="+ Topic Name"
+                              value={newTopicName}
+                              onChange={(e) => setNewTopicName(e.target.value)}
+                              className="flex-1 bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-lg px-2 py-1 text-[11px] text-white placeholder-slate-600 focus:outline-none"
+                            />
+                            <button
+                              type="submit"
+                              disabled={!newTopicName.trim()}
+                              className="p-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg cursor-pointer"
+                            >
+                              <Plus className="w-3.5 h-3.5" />
                             </button>
-                          </div>
-                        </div>
-
-                        {/* Topics List Under Chapter */}
-                        {isExpanded && (
-                          <div className="pl-6 pr-2 py-1 bg-slate-900/60 border-t border-slate-800/60 space-y-1">
-                            {chapter.topics.map((topic) => {
-                              const isSelectedTop = selectedTopic?.id === topic.id;
-                              return (
-                                <div
-                                  key={topic.id}
-                                  onClick={() => {
-                                    setSelectedChapter(chapter);
-                                    setSelectedTopic(topic);
-                                    setPanelMode(null);
-                                  }}
-                                  className={`p-2 rounded-lg flex items-center justify-between text-xs cursor-pointer transition-colors ${
-                                    isSelectedTop ? "bg-indigo-600 text-white font-bold" : "hover:bg-slate-800 text-slate-400"
-                                  }`}
-                                >
-                                  <span className="truncate">{topic.name}</span>
-                                  <button
-                                    onClick={(e) => handleDeleteTopic(topic.id, e)}
-                                    className="p-1 hover:text-rose-400 text-slate-500 transition-colors"
-                                  >
-                                    <Trash2 className="w-3 h-3" />
-                                  </button>
-                                </div>
-                              );
-                            })}
-
-                            {/* Add Topic under Chapter */}
-                            {isSelectedCh && (
-                              <form onSubmit={handleAddTopic} className="flex gap-1.5 pt-1 pb-1">
-                                <input
-                                  type="text"
-                                  placeholder="+ Topic Name"
-                                  value={newTopicName}
-                                  onChange={(e) => setNewTopicName(e.target.value)}
-                                  className="flex-1 bg-slate-950 border border-slate-800 focus:border-indigo-500 rounded-lg px-2 py-1 text-[11px] text-white placeholder-slate-600 focus:outline-none"
-                                />
-                                <button
-                                  type="submit"
-                                  disabled={!newTopicName.trim()}
-                                  className="p-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg cursor-pointer"
-                                >
-                                  <Plus className="w-3.5 h-3.5" />
-                                </button>
-                              </form>
-                            )}
-                          </div>
+                          </form>
                         )}
                       </div>
-                    );
-                  })}
-                </div>
-              </>
-            )}
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </aside>
 
@@ -859,7 +843,7 @@ export default function MentorView({
               </div>
 
               {/* Upload Form */}
-              <form onSubmit={handleCreateStudyMaterial} className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-xl">
+              <form onSubmit={handleCreateStudyMaterial} className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[10px] uppercase font-mono tracking-wider text-slate-400 font-bold mb-1">
@@ -1006,7 +990,7 @@ export default function MentorView({
                 <button
                   type="submit"
                   disabled={isUploadingMat}
-                  className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-purple-600/20"
+                  className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   {isUploadingMat ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
                   <span>Publish Document / Study Material</span>
@@ -1137,7 +1121,7 @@ export default function MentorView({
                   <button
                     type="submit"
                     disabled={isUpdatingDetails}
-                    className="w-full py-2.5 bg-purple-600 hover:bg-purple-700 disabled:bg-slate-800 text-white text-xs font-bold rounded-xl transition-all cursor-pointer shadow-md shadow-purple-600/20"
+                    className="w-full py-2.5 bg-purple-600 hover:bg-purple-700 disabled:bg-slate-800 text-white text-xs font-bold rounded-xl transition-all cursor-pointer"
                   >
                     {isUpdatingDetails ? "Saving..." : "Save Workspace Customization"}
                   </button>
@@ -1191,7 +1175,7 @@ export default function MentorView({
                   <button
                     type="submit"
                     disabled={isUpdatingPassword}
-                    className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-800 text-white text-xs font-bold rounded-xl transition-all cursor-pointer shadow-md shadow-indigo-600/20"
+                    className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-800 text-white text-xs font-bold rounded-xl transition-all cursor-pointer"
                   >
                     {isUpdatingPassword ? "Updating..." : "Update Mentor Password"}
                   </button>
@@ -1219,7 +1203,7 @@ export default function MentorView({
                     <div className="flex gap-2">
                       <button
                         onClick={() => setPanelMode("make_quiz")}
-                        className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-indigo-600/10"
+                        className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
                       >
                         <Plus className="w-3.5 h-3.5" />
                         <span>Build Quiz ({quizQuestions.length} Qs)</span>
@@ -1227,7 +1211,7 @@ export default function MentorView({
 
                       <button
                         onClick={() => setPanelMode("make_flashcards")}
-                        className="px-3.5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-purple-600/10"
+                        className="px-3.5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
                       >
                         <Plus className="w-3.5 h-3.5" />
                         <span>Build Flashcards ({flashcardsList.length} Cards)</span>
@@ -1241,12 +1225,6 @@ export default function MentorView({
                     <div className="p-5 bg-slate-950/40 border border-slate-800 rounded-2xl">
                       <h3 className="text-sm font-bold text-white font-display mb-3 flex items-center justify-between">
                         <span>Quiz Questions ({quizQuestions.length})</span>
-                        <button
-                          onClick={() => setPanelMode("make_quiz")}
-                          className="text-xs text-indigo-400 hover:underline cursor-pointer"
-                        >
-                          + Add / Edit
-                        </button>
                       </h3>
 
                       {quizQuestions.length === 0 ? (
@@ -1259,12 +1237,22 @@ export default function MentorView({
                                 <span className="font-bold text-indigo-400 mr-1.5">Q{idx + 1}.</span>
                                 <span className="text-slate-200">{q.text}</span>
                               </div>
-                              <button
-                                onClick={() => handleDeleteQuestion(q.id)}
-                                className="text-slate-600 hover:text-rose-400 p-1"
-                              >
-                                <Trash2 className="w-3.5 h-3.5" />
-                              </button>
+                              <div className="flex items-center gap-1">
+                                <button
+                                  onClick={() => handleEditQuestion(q)}
+                                  className="text-slate-500 hover:text-indigo-400 p-1 transition-colors"
+                                  title="Edit question"
+                                >
+                                  <Edit3 className="w-3.5 h-3.5" />
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteQuestion(q.id)}
+                                  className="text-slate-500 hover:text-rose-400 p-1 transition-colors"
+                                  title="Delete question"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
                             </div>
                           ))}
                         </div>
@@ -1275,12 +1263,6 @@ export default function MentorView({
                     <div className="p-5 bg-slate-950/40 border border-slate-800 rounded-2xl">
                       <h3 className="text-sm font-bold text-white font-display mb-3 flex items-center justify-between">
                         <span>Flashcard Decks ({flashcardsList.length})</span>
-                        <button
-                          onClick={() => setPanelMode("make_flashcards")}
-                          className="text-xs text-purple-400 hover:underline cursor-pointer"
-                        >
-                          + Add / Edit
-                        </button>
                       </h3>
 
                       {flashcardsList.length === 0 ? (
@@ -1293,12 +1275,25 @@ export default function MentorView({
                                 <span className="font-bold text-purple-400 mr-1.5">Card {idx + 1}.</span>
                                 <span className="text-slate-200">{fc.front}</span>
                               </div>
-                              <button
-                                onClick={() => handleDeleteFlashcard(fc.id)}
-                                className="text-slate-600 hover:text-rose-400 p-1"
-                              >
-                                <Trash2 className="w-3.5 h-3.5" />
-                              </button>
+                              <div className="flex items-center gap-1">
+                                <button
+                                  onClick={() => {
+                                    setFcFrontText(fc.front);
+                                    setFcBackText(fc.back);
+                                  }}
+                                  className="text-slate-500 hover:text-purple-400 p-1 transition-colors"
+                                  title="Edit flashcard"
+                                >
+                                  <Edit3 className="w-3.5 h-3.5" />
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteFlashcard(fc.id)}
+                                  className="text-slate-500 hover:text-rose-400 p-1 transition-colors"
+                                  title="Delete flashcard"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
                             </div>
                           ))}
                         </div>
@@ -1412,7 +1407,7 @@ export default function MentorView({
 
                 <button
                   type="submit"
-                  className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl transition-all shadow-md cursor-pointer"
+                  className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer"
                 >
                   {editingQuestionId ? "Update Question" : "Save Question to Quiz"}
                 </button>
@@ -1461,7 +1456,7 @@ export default function MentorView({
 
                 <button
                   type="submit"
-                  className="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl transition-all shadow-md cursor-pointer"
+                  className="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer"
                 >
                   Save Flashcard to Deck
                 </button>

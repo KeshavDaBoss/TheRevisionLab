@@ -190,7 +190,7 @@ function DigitCodeInput({
         ))}
       </div>
       <p className="text-[10px] font-mono text-slate-500 tracking-wider uppercase">
-        Alphanumeric · 0–9, A–Z
+        Enter the 6-character code provided by your mentor or workspace owner
       </p>
     </div>
   );
@@ -372,11 +372,6 @@ export default function WorkspaceLogin({ onSelectWorkspace }: WorkspaceLoginProp
           <span className="text-base font-extrabold font-display tracking-tight text-white">
             TheRevisionLab
           </span>
-        </div>
-
-        <div className="flex items-center gap-2 text-[10px] font-mono text-slate-500">
-          <span className="hidden sm:inline">Study Smarter</span>
-          <Sparkles className="w-3 h-3 text-indigo-400/60" />
         </div>
       </motion.header>
 
@@ -574,6 +569,17 @@ export default function WorkspaceLogin({ onSelectWorkspace }: WorkspaceLoginProp
                           <div className="flex items-center justify-center gap-1.5 text-xs uppercase font-mono font-bold text-slate-400 mb-4">
                             <History className="w-3.5 h-3.5 text-indigo-400" />
                             <span>Recent Workspaces</span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setRecentCodes([]);
+                                localStorage.removeItem("therevisionlab_recent_workspaces");
+                              }}
+                              className="ml-2 px-2 py-0.5 bg-slate-800 hover:bg-rose-600 text-slate-400 hover:text-white rounded-lg text-[10px] font-bold transition-colors cursor-pointer"
+                              title="Clear recent workspaces"
+                            >
+                              Clear
+                            </button>
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-xl mx-auto">
                             {recentCodes.map((item, i) => (
@@ -601,12 +607,9 @@ export default function WorkspaceLogin({ onSelectWorkspace }: WorkspaceLoginProp
                                     setIsJoining(false);
                                   }
                                 }}
-                                className="p-3.5 bg-slate-950/60 hover:bg-slate-800/80 border border-slate-800/60 hover:border-indigo-500/40 rounded-xl text-xs font-mono text-slate-300 hover:text-white transition-all flex items-center justify-between gap-2 cursor-pointer shadow-sm group"
+                                className="p-3.5 bg-slate-950/60 hover:bg-slate-800/80 border border-slate-800/60 hover:border-indigo-500/40 rounded-xl text-xs font-mono text-slate-300 hover:text-white transition-all flex items-center justify-between gap-2 cursor-pointer group"
                               >
                                 <span className="flex items-center gap-2">
-                                  <span className="w-6 h-6 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-[10px] font-bold text-indigo-400 group-hover:scale-110 transition-transform">
-                                    {item.code[0]}
-                                  </span>
                                   <span className="font-bold text-indigo-400 text-sm tracking-wider">
                                     {item.code}
                                   </span>

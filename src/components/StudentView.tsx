@@ -324,15 +324,13 @@ export default function StudentView({ workspace, onNavigateToMentor, onSwitchWor
 
   return (
     <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col relative overflow-hidden font-sans pb-16" style={{ zoom: 1.15 }}>
-      {/* Background Glow Accents */}
-      <div className="absolute -top-48 -left-48 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[130px] pointer-events-none" />
-      <div className="absolute -bottom-48 -right-48 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[130px] pointer-events-none" />
+      {/* Removed background glow accents */}
 
       {/* Main Top Header */}
       <header className="border-b border-slate-800 bg-[#090d16]/85 backdrop-blur-md sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-xl text-white shadow-md shadow-indigo-500/20">
+            <div className="p-2 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-xl text-white">
               <BookOpen className="w-5 h-5" />
             </div>
             <h1 className="text-base sm:text-lg font-extrabold font-display tracking-tight text-white">
@@ -344,7 +342,7 @@ export default function StudentView({ workspace, onNavigateToMentor, onSwitchWor
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={onSwitchWorkspace}
-              className="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer"
+              className="flex items-center gap-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer"
             >
               <KeyRound className="w-3.5 h-3.5 text-indigo-400" />
               <span>Switch Workspace</span>
@@ -354,7 +352,7 @@ export default function StudentView({ workspace, onNavigateToMentor, onSwitchWor
             <button
               id="enter-mentor-dashboard-btn"
               onClick={onNavigateToMentor}
-              className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer shadow-md shadow-indigo-600/20 group"
+              className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer group"
             >
               <ShieldCheck className="w-4 h-4 text-purple-200 group-hover:scale-110 transition-transform" />
               <span>Mentor Dashboard</span>
@@ -651,7 +649,7 @@ export default function StudentView({ workspace, onNavigateToMentor, onSwitchWor
                         key={mat.id}
                         className="rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-purple-500/40 p-6 flex flex-col justify-between transition-all hover:shadow-xl hover:bg-slate-900/70 relative group"
                       >
-                        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 opacity-60 group-hover:opacity-100 transition-opacity" />
+                        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 opacity-60 group-hover:opacity-100 transition-opacity" style={{ top: 0 }} />
 
                         <div>
                           <div className="flex items-center justify-between mb-3">
@@ -1176,7 +1174,7 @@ export default function StudentView({ workspace, onNavigateToMentor, onSwitchWor
                     <div className="absolute inset-0 w-full h-full bg-slate-900/80 border border-slate-800 rounded-2xl p-8 flex flex-col justify-between backface-hidden shadow-xl hover:border-indigo-500/50 transition-all">
                       <div className="flex justify-between items-center">
                         <span className="text-[9px] font-mono tracking-wider text-indigo-400 uppercase font-bold bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded-full">
-                          Concept Prompt
+                          Concept / Question
                         </span>
                         <HelpCircle className="w-4 h-4 text-indigo-400" />
                       </div>

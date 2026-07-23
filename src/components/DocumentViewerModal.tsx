@@ -33,6 +33,10 @@ export default function DocumentViewerModal({ material, onClose }: DocumentViewe
   };
 
   const isDataUrl = material.urlOrContent.startsWith("data:");
+  
+  // Only allow viewing for: text/notes, pdf, images, and links
+  // All other file types should be downloadable only
+  const isViewable = info.category === "notes" || info.category === "text";
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
@@ -66,7 +70,7 @@ export default function DocumentViewerModal({ material, onClose }: DocumentViewe
               <a
                 href={material.urlOrContent}
                 download={getDownloadFileName()}
-                className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-indigo-600/20"
+                className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer"
                 title="Download file to device"
               >
                 <Download className="w-4 h-4" />
@@ -94,7 +98,7 @@ export default function DocumentViewerModal({ material, onClose }: DocumentViewe
         {/* Modal Body depending on document category */}
         <div className="flex-1 overflow-y-auto pr-1 space-y-4">
 
-          {/* 1. PDF Document Previewer */}
+          {/* 1. PDF Document Previewer - Still viewable */}
           {info.category === "pdf" && (
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs text-slate-400 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
@@ -150,7 +154,7 @@ export default function DocumentViewerModal({ material, onClose }: DocumentViewe
             </div>
           )}
 
-          {/* 3. Text File / Lecture Notes Reader */}
+          {/* 3. Text File / Lecture Notes Reader - Only viewable type */}
           {(info.category === "notes" || info.category === "text") && (
             <div className="space-y-3">
               <div className="flex items-center justify-between bg-slate-950/60 p-2.5 rounded-xl border border-slate-800 text-xs">
@@ -172,14 +176,16 @@ export default function DocumentViewerModal({ material, onClose }: DocumentViewe
             </div>
           )}
 
-          {/* 4. Binary Documents (Word, PowerPoint, Excel, Zip, Executables) */}
+          {/* 4. Binary Documents (Word, PowerPoint, Excel, Zip, PDF, images, executables, etc.) - Downloadable only */}
           {(info.category === "word" ||
             info.category === "powerpoint" ||
             info.category === "excel" ||
             info.category === "archive" ||
-            info.category === "file") && (
+            info.category === "file" ||
+            info.category === "image" ||
+            info.category === "pdf") && (
             <div className="p-8 bg-slate-950/60 border border-slate-800 rounded-2xl flex flex-col items-center justify-center text-center space-y-4 my-4">
-              <div className={`p-4 rounded-3xl border ${info.badgeClass} shadow-xl`}>
+              <div className={`p-4 rounded-3xl border ${info.badgeClass}`}>
                 <File className="w-12 h-12" />
               </div>
 
@@ -198,14 +204,14 @@ export default function DocumentViewerModal({ material, onClose }: DocumentViewe
               </div>
 
               <p className="text-slate-400 text-xs max-w-md leading-relaxed">
-                This document is formatted for office viewers ({info.label}). You can download it directly to open in Microsoft Office, Google Docs, or your default system reader.
+                This document type cannot be previewed inline. You can download it to open in the appropriate application.
               </p>
 
               <div className="flex items-center gap-3 pt-2">
                 <a
                   href={material.urlOrContent}
                   download={getDownloadFileName()}
-                  className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-purple-600/25"
+                  className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl transition-all flex items-center gap-2 cursor-pointer"
                 >
                   <Download className="w-4 h-4" />
                   <span>Download Document File</span>
@@ -217,7 +223,7 @@ export default function DocumentViewerModal({ material, onClose }: DocumentViewe
           {/* 5. Web Resource Link */}
           {info.category === "link" && (
             <div className="p-8 bg-slate-950/60 border border-slate-800 rounded-2xl flex flex-col items-center justify-center text-center space-y-4 my-4">
-              <div className="p-4 bg-sky-500/10 border border-sky-500/20 text-sky-400 rounded-3xl shadow-xl">
+              <div className="p-4 bg-sky-500/10 border border-sky-500/20 text-sky-400 rounded-3xl">
                 <ExternalLink className="w-12 h-12" />
               </div>
 
@@ -234,7 +240,7 @@ export default function DocumentViewerModal({ material, onClose }: DocumentViewe
                 href={material.urlOrContent}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-sky-600/25"
+                className="px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold rounded-xl transition-all flex items-center gap-2 cursor-pointer"
               >
                 <ExternalLink className="w-4 h-4" />
                 <span>Visit External Link</span>
