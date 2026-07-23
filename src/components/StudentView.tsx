@@ -647,9 +647,9 @@ export default function StudentView({ workspace, onNavigateToMentor, onSwitchWor
                     return (
                       <div
                         key={mat.id}
-                        className="rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-purple-500/40 p-6 flex flex-col justify-between transition-all hover:shadow-xl hover:bg-slate-900/70 relative group"
+                        className="rounded-2xl bg-slate-900/40 border border-slate-800 hover:border-purple-500/40 p-6 flex flex-col justify-between transition-all hover:shadow-xl hover:bg-slate-900/70 relative group overflow-hidden"
                       >
-                        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 opacity-60 group-hover:opacity-100 transition-opacity" style={{ top: 0 }} />
+                        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 opacity-60 group-hover:opacity-100 transition-opacity" />
 
                         <div>
                           <div className="flex items-center justify-between mb-3">
@@ -681,13 +681,15 @@ export default function StudentView({ workspace, onNavigateToMentor, onSwitchWor
 
                         {/* Action buttons */}
                         <div className="pt-4 border-t border-slate-800/60 flex items-center justify-between gap-2">
-                          <button
-                            onClick={() => setViewingMaterial(mat)}
-                            className="flex-1 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-purple-600/10"
-                          >
-                            <Eye className="w-3.5 h-3.5" />
-                            <span>View / Read</span>
-                          </button>
+                          {(docInfo.category === "notes" || docInfo.category === "text") && (
+                            <button
+                              onClick={() => setViewingMaterial(mat)}
+                              className="flex-1 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-purple-600/10"
+                            >
+                              <Eye className="w-3.5 h-3.5" />
+                              <span>View / Read</span>
+                            </button>
+                          )}
 
                           {mat.urlOrContent && (
                             <a

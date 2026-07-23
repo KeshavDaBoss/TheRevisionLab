@@ -34,7 +34,7 @@ export default function DocumentViewerModal({ material, onClose }: DocumentViewe
 
   const isDataUrl = material.urlOrContent.startsWith("data:");
   
-  // Only allow viewing for: text/notes, pdf, images, and links
+  // Only allow viewing for: text/notes
   // All other file types should be downloadable only
   const isViewable = info.category === "notes" || info.category === "text";
 
@@ -98,63 +98,7 @@ export default function DocumentViewerModal({ material, onClose }: DocumentViewe
         {/* Modal Body depending on document category */}
         <div className="flex-1 overflow-y-auto pr-1 space-y-4">
 
-          {/* 1. PDF Document Previewer - Still viewable */}
-          {info.category === "pdf" && (
-            <div className="space-y-3">
-              <div className="flex items-center justify-between text-xs text-slate-400 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
-                <span className="font-mono flex items-center gap-1.5 text-slate-300">
-                  <FileText className="w-4 h-4 text-rose-400" />
-                  PDF Document Viewer {material.fileName ? `(${material.fileName})` : ""}
-                </span>
-                <a
-                  href={material.urlOrContent}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-indigo-400 hover:underline flex items-center gap-1 text-[11px]"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  Open in New Window
-                </a>
-              </div>
-
-              <div className="w-full bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden h-[480px] relative">
-                {isDataUrl || material.urlOrContent.startsWith("http") ? (
-                  <iframe
-                    src={material.urlOrContent}
-                    title={material.title}
-                    className="w-full h-full border-none"
-                  />
-                ) : (
-                  <div className="flex flex-col items-center justify-center h-full p-6 text-center">
-                    <FileText className="w-12 h-12 text-rose-400 mb-3" />
-                    <p className="text-sm font-bold text-white mb-2">PDF Document Ready</p>
-                    <a
-                      href={material.urlOrContent}
-                      download={getDownloadFileName()}
-                      className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl"
-                    >
-                      Download PDF Document ({material.fileSize || "File"})
-                    </a>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* 2. Image Document Previewer */}
-          {info.category === "image" && (
-            <div className="space-y-3 text-center">
-              <div className="p-2 bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden max-h-[500px] flex items-center justify-center">
-                <img
-                  src={material.urlOrContent}
-                  alt={material.title}
-                  className="max-h-[480px] w-auto max-w-full object-contain rounded-xl"
-                />
-              </div>
-            </div>
-          )}
-
-          {/* 3. Text File / Lecture Notes Reader - Only viewable type */}
+          {/* 1. Text File / Lecture Notes Reader - Only viewable type */}
           {(info.category === "notes" || info.category === "text") && (
             <div className="space-y-3">
               <div className="flex items-center justify-between bg-slate-950/60 p-2.5 rounded-xl border border-slate-800 text-xs">

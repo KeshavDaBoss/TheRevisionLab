@@ -117,6 +117,7 @@ export default function MentorView({
   const [flashcardsList, setFlashcardsList] = useState<Flashcard[]>([]);
   const [fcFrontText, setFcFrontText] = useState<string>("");
   const [fcBackText, setFcBackText] = useState<string>("");
+  const [editingFlashcardId, setEditingFlashcardId] = useState<string | null>(null);
 
   // Sidebar states
   const [sidebarSearch, setSidebarSearch] = useState<string>("");
@@ -436,13 +437,24 @@ export default function MentorView({
     e.preventDefault();
     if (!fcFrontText.trim() || !fcBackText.trim()) return;
 
-    const newFc: Flashcard = {
-      id: "fc-" + Date.now(),
-      front: fcFrontText.trim(),
-      back: fcBackText.trim()
-    };
+    let updatedFCs: Flashcard[];
 
-    const updatedFCs = [...flashcardsList, newFc];
+    if (editingFlashcardId) {
+      updatedFCs = flashcardsList.map((fc) => {
+        if (fc.id === editingFlashcardId) {
+          return { ...fc, front: fcFrontText.trim(), back: fcBackText.trim() };
+        }
+        return fc;
+      });
+    } else {
+      const newFc: Flashcard = {
+        id: "fc-" + Date.now(),
+        front: fcFrontText.trim(),
+        back: fcBackText.trim()
+      };
+      updatedFCs = [...flashcardsList, newFc];
+    }
+
     setFlashcardsList(updatedFCs);
 
     const updatedChapters = chapters.map((c) => {
@@ -463,6 +475,7 @@ export default function MentorView({
     updateSyllabus(updatedChapters);
     setFcFrontText("");
     setFcBackText("");
+    setEditingFlashcardId(null);
   };
 
   const handleDeleteFlashcard = (fcId: string) => {
@@ -1031,13 +1044,25 @@ export default function MentorView({
                           </div>
 
                           <div className="flex items-center gap-2 shrink-0">
-                            <button
-                              onClick={() => setViewingMaterial(m)}
-                              className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-bold rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
-                            >
-                              <Eye className="w-3.5 h-3.5 text-purple-400" />
-                              <span>Preview</span>
-                            </button>
+                            {(docInfo.category === "notes" || docInfo.category === "text") ? (
+                              <button
+                                onClick={() => setViewingMaterial(m)}
+                                className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-bold rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
+                              >
+                                <Eye className="w-3.5 h-3.5 text-purple-400" />
+                                <span>Preview</span>
+                              </button>
+                            ) : (
+                              <a
+                                href={m.urlOrContent}
+                                download={m.fileName || `${m.title.replace(/\s+/g, "_")}.${docInfo.category}`}
+                                className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-bold rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
+                                title="Download document to device"
+                              >
+                                <Download className="w-3.5 h-3.5 text-purple-400" />
+                                <span>Download</span>
+                              </a>
+                            )}
 
                             <button
                               onClick={async () => {
@@ -1239,7 +1264,10 @@ export default function MentorView({
                               </div>
                               <div className="flex items-center gap-1">
                                 <button
-                                  onClick={() => handleEditQuestion(q)}
+                                  onClick={() => {
+                                    handleEditQuestion(q);
+                                    setPanelMode("make_quiz");
+                                  }}
                                   className="text-slate-500 hover:text-indigo-400 p-1 transition-colors"
                                   title="Edit question"
                                 >
@@ -1278,8 +1306,10 @@ export default function MentorView({
                               <div className="flex items-center gap-1">
                                 <button
                                   onClick={() => {
+                                    setEditingFlashcardId(fc.id);
                                     setFcFrontText(fc.front);
                                     setFcBackText(fc.back);
+                                    setPanelMode("make_flashcards");
                                   }}
                                   className="text-slate-500 hover:text-purple-400 p-1 transition-colors"
                                   title="Edit flashcard"
@@ -1458,7 +1488,7 @@ export default function MentorView({
                   type="submit"
                   className="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl transition-all cursor-pointer"
                 >
-                  Save Flashcard to Deck
+                  {editingFlashcardId ? "Update Flashcard" : "Save Flashcard to Deck"}
                 </button>
               </form>
             </div>
