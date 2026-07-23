@@ -541,7 +541,7 @@ export default function MentorView({
   // AUTHENTICATION LOGIN GATEWAY
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#090d16] text-slate-100 flex items-center justify-center p-4 relative overflow-hidden font-sans">
+      <div className="min-h-screen bg-[#090d16] text-slate-100 flex items-center justify-center p-4 relative overflow-hidden font-sans" style={{ zoom: 1.15 }}>
         <div className="absolute -top-48 -left-48 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[130px] pointer-events-none" />
         <div className="absolute -bottom-48 -right-48 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[130px] pointer-events-none" />
 
@@ -616,7 +616,7 @@ export default function MentorView({
   }
 
   return (
-    <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col font-sans" style={{ zoom: 1.15 }}>
       {/* Top Header */}
       <header className="border-b border-slate-800 bg-[#090d16]/90 backdrop-blur-md sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between gap-3">

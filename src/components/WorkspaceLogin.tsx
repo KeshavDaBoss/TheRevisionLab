@@ -95,7 +95,7 @@ export default function WorkspaceLogin({ onSelectWorkspace }: WorkspaceLoginProp
   };
 
   return (
-    <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col justify-between relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col justify-between relative overflow-hidden font-sans" style={{ zoom: 0.85 }}>
       {/* Background Decorative Glows */}
       <div className="absolute -top-48 -left-48 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute -bottom-48 -right-48 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[140px] pointer-events-none" />

@@ -323,7 +323,7 @@ export default function StudentView({ workspace, onNavigateToMentor, onSwitchWor
   });
 
   return (
-    <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col relative overflow-hidden font-sans pb-16">
+    <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col relative overflow-hidden font-sans pb-16" style={{ zoom: 1.15 }}>
       {/* Background Glow Accents */}
       <div className="absolute -top-48 -left-48 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[130px] pointer-events-none" />
       <div className="absolute -bottom-48 -right-48 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[130px] pointer-events-none" />
