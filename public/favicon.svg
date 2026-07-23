@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="revisionGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5" />
+      <stop offset="100%" stop-color="#9333EA" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="url(#revisionGrad)" />
+  <g transform="translate(8, 8)">
+    <path d="M 6 12 H 18 C 21.3137 12 24 14.6863 24 18 V 38 C 24 35.7909 22.2091 34 20 34 H 6 V 12 Z" fill="none" stroke="#FFFFFF" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 42 12 H 30 C 26.6863 12 24 14.6863 24 18 V 38 C 24 35.7909 25.7909 34 28 34 H 42 V 12 Z" fill="none" stroke="#FFFFFF" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg>
