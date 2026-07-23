@@ -11,7 +11,6 @@ import { updateMentorPasswordApi, updateWorkspaceSyllabus } from "../lib/api";
 import { getDocumentTypeInfo } from "../lib/documentUtils";
 import { getWorkspaceIconComponent } from "../lib/workspaceIcons";
 import WorkspaceIconPicker from "./WorkspaceIconPicker";
-import DocumentViewerModal from "./DocumentViewerModal";
 
 interface MentorViewProps {
   workspace: Workspace;
@@ -103,7 +102,6 @@ export default function MentorView({
   const [matTopicTag, setMatTopicTag] = useState<string>("");
   const [isUploadingMat, setIsUploadingMat] = useState<boolean>(false);
   const [matStatusMsg, setMatStatusMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
-  const [viewingMaterial, setViewingMaterial] = useState<StudyMaterial | null>(null);
 
   // Quiz Builder Inputs
   const [quizQuestions, setQuizQuestions] = useState<Question[]>([]);
@@ -1044,15 +1042,12 @@ export default function MentorView({
                           </div>
 
                           <div className="flex items-center gap-2 shrink-0">
-                            {(docInfo.category === "notes" || docInfo.category === "text") ? (
-                              <button
-                                onClick={() => setViewingMaterial(m)}
-                                className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-bold rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
-                              >
-                                <Eye className="w-3.5 h-3.5 text-purple-400" />
-                                <span>Preview</span>
-                              </button>
-                            ) : (
+                             {docInfo.category === "notes" || docInfo.category === "text" ? (
+                               <span className="px-2.5 py-1 bg-slate-800 text-slate-400 text-[11px] font-bold rounded-lg flex items-center gap-1">
+                                 <FileText className="w-3.5 h-3.5" />
+                                 <span>Notes</span>
+                               </span>
+                             ) : (
                               <a
                                 href={m.urlOrContent}
                                 download={m.fileName || `${m.title.replace(/\s+/g, "_")}.${docInfo.category}`}
@@ -1083,14 +1078,6 @@ export default function MentorView({
                 )}
               </div>
             </div>
-          )}
-
-          {/* DOCUMENT VIEWER MODAL IN MENTOR VIEW */}
-          {viewingMaterial && (
-            <DocumentViewerModal
-              material={viewingMaterial}
-              onClose={() => setViewingMaterial(null)}
-            />
           )}
 
           {/* PANEL 2: SETTINGS WORKSHOP */}

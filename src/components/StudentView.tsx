@@ -8,7 +8,6 @@ import gsap from "gsap";
 import { Chapter, Topic, Question, Flashcard, Workspace, StudyMaterial } from "../types";
 import { getDocumentTypeInfo } from "../lib/documentUtils";
 import { getWorkspaceIconComponent } from "../lib/workspaceIcons";
-import DocumentViewerModal from "./DocumentViewerModal";
 
 interface StudentViewProps {
   workspace: Workspace;
@@ -56,9 +55,6 @@ export default function StudentView({ workspace, onNavigateToMentor, onSwitchWor
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [materialSearch, setMaterialSearch] = useState<string>("");
   const [selectedMaterialFilter, setSelectedMaterialFilter] = useState<string>("all");
-
-  // Active Note Modal Viewer
-  const [viewingMaterial, setViewingMaterial] = useState<StudyMaterial | null>(null);
 
   // Copy Code Feedback State
   const [copiedCode, setCopiedCode] = useState<boolean>(false);
@@ -682,13 +678,10 @@ export default function StudentView({ workspace, onNavigateToMentor, onSwitchWor
                         {/* Action buttons */}
                         <div className="pt-4 border-t border-slate-800/60 flex items-center justify-between gap-2">
                           {(docInfo.category === "notes" || docInfo.category === "text") && (
-                            <button
-                              onClick={() => setViewingMaterial(mat)}
-                              className="flex-1 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-purple-600/10"
-                            >
-                              <Eye className="w-3.5 h-3.5" />
-                              <span>View / Read</span>
-                            </button>
+                            <div className="flex-1 py-2 bg-slate-800 text-slate-400 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5">
+                              <FileText className="w-3.5 h-3.5" />
+                              <span>Lecture Notes</span>
+                            </div>
                           )}
 
                           {mat.urlOrContent && (
@@ -709,14 +702,6 @@ export default function StudentView({ workspace, onNavigateToMentor, onSwitchWor
                 </div>
               )}
             </div>
-          )}
-
-          {/* DOCUMENT / MATERIAL READER MODAL */}
-          {viewingMaterial && (
-            <DocumentViewerModal
-              material={viewingMaterial}
-              onClose={() => setViewingMaterial(null)}
-            />
           )}
 
           {/* LEVEL 2, LEVEL 3, LEVEL 4 QUIZ & FLASHCARD RENDERINGS SAME AS EXISTING CODE */}
