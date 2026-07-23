@@ -83,7 +83,7 @@ therevisionlab/
 │   │   ├── DocumentViewerModal.tsx  # Document preview modal
 │   │   └── WorkspaceIconPicker.tsx  # Icon selector for workspaces
 │   ├── data/
-│   │   └── sampleData.ts            # Initial sample chapters & materials
+│   │   └── (empty — users create their own content)
 │   ├── lib/
 │   │   ├── api.ts                   # API client functions
 │   │   ├── documentUtils.ts         # Document type helpers
@@ -157,14 +157,6 @@ npm start
 5. **Study & Practice** — Students explore chapters, take quizzes (timed or untimed), flip through flashcards, and view study materials.
 
 ---
-
-## Sample Data
-
-New workspaces are pre-populated with sample content:
-- **Light — Reflection & Refraction** (Spherical Mirrors, Refraction & Lenses)
-- **Chemical Reactions & Equations** (Types of Reactions, Balancing Equations)
-
-Each topic comes with sample quiz questions and flashcards to demonstrate the platform.
 
 ---
 
